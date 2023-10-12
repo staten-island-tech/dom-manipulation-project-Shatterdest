@@ -6,13 +6,24 @@ html, body, * {
     color: white;
 }
 
+textarea:focus, input:focus {
+    color: #ff0000;
+}
+
+input, select, textarea{
+    color: #000;
+}
+.form {
+    background-color: #000;
+}
 .container {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     background-color: rgb(0, 0, 0);
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
 }   
 
 .input {
@@ -21,4 +32,10 @@ html, body, * {
 
 #button {
     color: black;
+}
+
+.rgb-box {
+    width: 27%;
+    height: 50%;
+    margin: 1rem 1rem;
 }

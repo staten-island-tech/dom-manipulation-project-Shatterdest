@@ -1,23 +1,29 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
-        <form action="" id="rgbInput">
-            <label for="red" class="input">Enter Red</label>
-            <input type="text" name="red" class="input" id="red">
-            <label for="green" class="input">Enter Green</label>
-            <input type="text" name="green" class="input" id="green">
-            <label for="blue" class="input">Enter Blue</label>
-            <input type="text" name="blue" class="input" id="blue">
-            <input type="submit" class="input" id='button' value="Submit RGB">
-        </form>
-    </div>
+
+    <form action="" id="rgbInput" class="form">
+        <label for="red" class="input">Enter Red</label>
+        <input type="text" name="red" class="input" id="red" autocomplete="off">
+        <label for="green" class="input">Enter Green</label>
+        <input type="text" name="green" class="input" id="green" autocomplete="off">
+        <label for="blue" class="input">Enter Blue</label>
+        <input type="text" name="blue" class="input" id="blue" autocomplete="off">
+        <input type="submit" class="input" id='button' value="Submit RGB">
+    </form>
     <script src="index.js"></script>
+
+    <div class="container">
+
+    </div>
 </body>
+
 </html>
