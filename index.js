@@ -22,12 +22,20 @@ function createBox() {
   return rgbBox;
 }
 
+function rgbTextContent(rgb) {
+  if (rgb.red === '' && rgb.green === '' && rgb.blue === '') {
+    return `RGB: 0, 0, 0`;
+  } else {
+    return `RGB: ${rgb.red}, ${rgb.green}, ${rgb.blue}`;
+  }
+}
+
 function addBoxContents(rgb) {
   const box = createBox();
   const rgbText = document.createElement("p");
-  rgbText.classList.add("rgb-text");
-  rgbText.textContent = `RGB: ${rgb.red}, ${rgb.green}, ${rgb.blue}`;
   const rgbButton = document.createElement("button");
+  rgbText.classList.add("rgb-text");
+  rgbText.textContent = rgbTextContent(rgb);
   rgbButton.classList.add("rgb-button");
   rgbButton.textContent = "Delete Box";
   rgbButton.addEventListener("click", function () {
