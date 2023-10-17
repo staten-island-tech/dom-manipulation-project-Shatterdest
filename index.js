@@ -22,13 +22,17 @@ function createBox() {
 }
 
 function rgbTextContent(rgb) {
-  if (rgb.red === "" && rgb.green === "" && rgb.blue === "") {
-    return `RGB: 0, 0, 0`;
-  } else {
-    return `RGB: ${rgb.red}, ${rgb.green}, ${rgb.blue}`;
-  }
+  const list = [rgb.red, rgb.green, rgb.blue];
+  const newList = []
+  list.forEach((color) => {
+    if (color === '') {
+      newList.push('0');
+    } else {
+      newList.push(color);
+    }
+  })
+  return `RGB: ${newList.join(', ')}`;
 }
-
 function delButton(rgbButton, box) {
   rgbButton.addEventListener("click", function () {
     box.remove();
@@ -50,9 +54,8 @@ function addBoxContents(rgb) {
   rgbButton.textContent = "Delete Box";
   delButton(rgbButton, box);
   boxNumber.classList.add("box-number");
-  boxNumber.textContent = `Box #${
-    DOMSelectors.container[0].childElementCount + 1
-  }`;
+  boxNumber.textContent = `Box #${DOMSelectors.container[0].childElementCount + 1
+    }`;
   box.appendChild(boxNumber);
   box.appendChild(rgbText);
   box.appendChild(rgbButton);
