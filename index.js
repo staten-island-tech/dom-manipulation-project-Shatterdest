@@ -3,10 +3,9 @@ function insertRGBBox(rgb) {
     const rgbBox = addBoxContents(rgb);
     rgbBox.style.backgroundColor = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
     DOMSelectors.container[0].appendChild(rgbBox);
+  } else {
+    alert("Please enter a number between 0 and 255");
   }
-    else {
-        alert("Please enter a number between 0 and 255");
-    }
 }
 
 function checkInput(input) {
@@ -23,24 +22,38 @@ function createBox() {
 }
 
 function rgbTextContent(rgb) {
-  if (rgb.red === '' && rgb.green === '' && rgb.blue === '') {
+  if (rgb.red === "" && rgb.green === "" && rgb.blue === "") {
     return `RGB: 0, 0, 0`;
   } else {
     return `RGB: ${rgb.red}, ${rgb.green}, ${rgb.blue}`;
   }
 }
 
+function delButton(rgbButton, box) {
+  rgbButton.addEventListener("click", function () {
+    box.remove();
+    const boxNumbers = document.getElementsByClassName("box-number");
+    for (let i = 0; i < boxNumbers.length; i++) {
+      boxNumbers[i].textContent = `Box #${i + 1}`;
+    }
+  });
+}
+
 function addBoxContents(rgb) {
   const box = createBox();
   const rgbText = document.createElement("p");
   const rgbButton = document.createElement("button");
+  const boxNumber = document.createElement("p");
   rgbText.classList.add("rgb-text");
   rgbText.textContent = rgbTextContent(rgb);
   rgbButton.classList.add("rgb-button");
   rgbButton.textContent = "Delete Box";
-  rgbButton.addEventListener("click", function () {
-    box.remove();
-  });
+  delButton(rgbButton, box);
+  boxNumber.classList.add("box-number");
+  boxNumber.textContent = `Box #${
+    DOMSelectors.container[0].childElementCount + 1
+  }`;
+  box.appendChild(boxNumber);
   box.appendChild(rgbText);
   box.appendChild(rgbButton);
   return box;
