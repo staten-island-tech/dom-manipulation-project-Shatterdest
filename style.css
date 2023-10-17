@@ -17,12 +17,30 @@ input:focus {
     background-color: white;
 }
 
+#red:hover,
+#red:focus {
+    color: white;
+    background-color: red;
+}
+
+#green:hover,
+#green:focus {
+    color: white;
+    background-color: green;
+}
+
+#blue:hover,
+#blue:focus {
+    color: white;
+    background-color: blue;
+}
+
 input,
 select,
 textarea {
     color: #000;
     background-color: white;
-
+    transition: 0.4s all;
 }
 
 #title {
@@ -70,6 +88,14 @@ hr.homerounded {
 
 #button {
     color: black;
+    border-radius: 0.5rem;
+    transition: 0.4s all;
+}
+
+#button:hover {
+    background-color: black;
+    color: white;
+    border-color: rgba(0, 0, 0, 0);
 }
 
 .rgb-box {
@@ -107,4 +133,10 @@ hr.homerounded {
     font-size: 2rem;
     text-align: left;
     margin: 1rem 1rem;
+    background-color: rgba(0, 0, 0, 0);
+    text-shadow:
+        1px 1px 2px black,
+        1px -1px 2px black,
+        -1px 1px 2px black,
+        -1px -1px 2px black;
 }
