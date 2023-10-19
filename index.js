@@ -1,6 +1,6 @@
 function insertRGBBox(rgb) {
   if (checkInput(rgb.red) && checkInput(rgb.green) && checkInput(rgb.blue)) {
-    const rgbBox = addBoxContents(rgb);
+    const rgbBox = boxContents(rgb);
     rgbBox.style.backgroundColor = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
     DOMSelectors.container[0].appendChild(rgbBox);
   } else {
@@ -43,7 +43,7 @@ function delButton(rgbButton, box) {
   });
 }
 
-function addBoxContents(rgb) {
+function boxContents(rgb) {
   const box = createBox();
   const rgbText = document.createElement("p");
   const rgbButton = document.createElement("button");
