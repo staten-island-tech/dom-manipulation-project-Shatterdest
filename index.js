@@ -1,30 +1,31 @@
 function insertRGBBox(rawRGB) {
-  rgb = validRGB(rawRGB);
-  console.log(`valid rgb: ${rgb}`)
+  const rgb = validRGB(rawRGB);
+  console.log(rgb)
   DOMSelectors.inputform.reset();
-  console.log(rgb);
   const rgbBox = boxContents(rgb);
   rgbBox.style.backgroundColor = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
   DOMSelectors.container[0].appendChild(rgbBox);
+}
+
+function isInteger(value) {
+  return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
 }
 
 function validRGB(rgb) {
   console.log(`checking rgb: ${rgb.red}, ${rgb.green}, ${rgb.blue}`);
   try {
     rgb = blankRGB(rgb);
-    intRGB= [parseInt(rgb.red), parseInt(rgb.green), parseInt(rgb.blue)];
+    intRGB = [parseInt(rgb.red), parseInt(rgb.green), parseInt(rgb.blue)];
     console.log(`parsed RGB values: ${intRGB}`)
     intRGB.forEach((color) => {
-      if (color < 0 || color > 255) {
+      if (color > 255 || color < 0 || !isInteger(color)) {
         throw "Invalid RGB value";
       }
-      else {
-        console.log('returning ' + intRGB)
-        return intRGB;
-      }
     })
+    return { red: intRGB[0], green: intRGB[1], blue: intRGB[2] }
   } catch {
-    alert("Please enter a valid RGB value");
+    console.log("Invalid RGB value" + { red: "", green: "", blue: "" });
+    DOMSelectors.error.textContent = "Invalid RGB value";
   }
 }
 function createBox() {
@@ -71,9 +72,8 @@ function boxContents(rgb) {
   rgbButton.textContent = "Delete Box";
   delButton(rgbButton, box);
   boxNumber.classList.add("box-number");
-  boxNumber.textContent = `Box #${
-    DOMSelectors.container[0].childElementCount + 1
-  }`;
+  boxNumber.textContent = `Box #${DOMSelectors.container[0].childElementCount + 1
+    }`;
   box.appendChild(boxNumber);
   box.appendChild(rgbText);
   box.appendChild(rgbButton);
@@ -86,10 +86,12 @@ const DOMSelectors = {
   green: document.getElementById("green"),
   blue: document.getElementById("blue"),
   container: document.getElementsByClassName("container"),
+  error: document.getElementById("error"),
 };
 
 DOMSelectors.inputform.addEventListener("submit", function (e) {
   e.preventDefault();
+  DOMSelectors.error.textContent = '';
   const color = {
     red: DOMSelectors.red.value,
     green: DOMSelectors.green.value,

@@ -140,3 +140,9 @@ hr.homerounded {
         -1px 1px 2px black,
         -1px -1px 2px black;
 }
+
+#error {
+    font-size: 2rem;
+    color: red;
+    text-align: center;
+}
