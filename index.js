@@ -1,38 +1,55 @@
-function insertRGBBox(rgb) {
-  if (checkInput(rgb.red) && checkInput(rgb.green) && checkInput(rgb.blue)) {
-    const rgbBox = boxContents(rgb);
-    rgbBox.style.backgroundColor = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
-    DOMSelectors.container[0].appendChild(rgbBox);
-  } else {
-    alert("Please enter a number between 0 and 255");
-  }
+function insertRGBBox(rawRGB) {
+  rgb = validRGB(rawRGB);
+  console.log(`valid rgb: ${rgb}`)
+  DOMSelectors.inputform.reset();
+  console.log(rgb);
+  const rgbBox = boxContents(rgb);
+  rgbBox.style.backgroundColor = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
+  DOMSelectors.container[0].appendChild(rgbBox);
 }
 
-function checkInput(input) {
-  if (input >= 0 && input <= 255) {
-    return true;
+function validRGB(rgb) {
+  console.log(`checking rgb: ${rgb.red}, ${rgb.green}, ${rgb.blue}`);
+  try {
+    rgb = blankRGB(rgb);
+    intRGB= [parseInt(rgb.red), parseInt(rgb.green), parseInt(rgb.blue)];
+    console.log(`parsed RGB values: ${intRGB}`)
+    intRGB.forEach((color) => {
+      if (color < 0 || color > 255) {
+        throw "Invalid RGB value";
+      }
+      else {
+        console.log('returning ' + intRGB)
+        return intRGB;
+      }
+    })
+  } catch {
+    alert("Please enter a valid RGB value");
   }
-  return false;
 }
-
 function createBox() {
   const rgbBox = document.createElement("div");
   rgbBox.classList.add("rgb-box");
   return rgbBox;
 }
 
-function rgbTextContent(rgb) {
+function blankRGB(rgb) {
   const list = [rgb.red, rgb.green, rgb.blue];
-  const newList = []
+  const newList = [];
   list.forEach((color) => {
-    if (color === '') {
-      newList.push('0');
+    if (color === "") {
+      newList.push("0");
     } else {
       newList.push(color);
     }
-  })
-  return `RGB: ${newList.join(', ')}`;
+  });
+  return {
+    red: newList[0],
+    green: newList[1],
+    blue: newList[2],
+  };
 }
+
 function delButton(rgbButton, box) {
   rgbButton.addEventListener("click", function () {
     box.remove();
@@ -49,13 +66,14 @@ function boxContents(rgb) {
   const rgbButton = document.createElement("button");
   const boxNumber = document.createElement("p");
   rgbText.classList.add("rgb-text");
-  rgbText.textContent = rgbTextContent(rgb);
+  rgbText.textContent = `RGB: ${rgb.red}, ${rgb.green}, ${rgb.blue}`;
   rgbButton.classList.add("rgb-button");
   rgbButton.textContent = "Delete Box";
   delButton(rgbButton, box);
   boxNumber.classList.add("box-number");
-  boxNumber.textContent = `Box #${DOMSelectors.container[0].childElementCount + 1
-    }`;
+  boxNumber.textContent = `Box #${
+    DOMSelectors.container[0].childElementCount + 1
+  }`;
   box.appendChild(boxNumber);
   box.appendChild(rgbText);
   box.appendChild(rgbButton);
@@ -72,7 +90,6 @@ const DOMSelectors = {
 
 DOMSelectors.inputform.addEventListener("submit", function (e) {
   e.preventDefault();
-
   const color = {
     red: DOMSelectors.red.value,
     green: DOMSelectors.green.value,
@@ -81,5 +98,4 @@ DOMSelectors.inputform.addEventListener("submit", function (e) {
   console.log(`RGB entered: ${color.red}, ${color.green}, ${color.blue}`);
   console.log(DOMSelectors.container);
   insertRGBBox(color);
-  DOMSelectors.inputform.reset();
 });
