@@ -1,14 +1,25 @@
 function insertRGBBox(rawRGB) {
   const rgb = validRGB(rawRGB);
-  console.log(rgb)
+  console.log(rgb);
   DOMSelectors.inputform.reset();
-  const rgbBox = boxContents(rgb);
-  rgbBox.style.backgroundColor = `rgb(${rgb.red}, ${rgb.green}, ${rgb.blue})`;
-  DOMSelectors.container[0].appendChild(rgbBox);
+  DOMSelectors.container[0].insertAdjacentHTML(
+    "beforeend",
+    `<div class="rgb-box" style="background-color: rgb(${rgb.red}, ${
+      rgb.green
+    }, ${rgb.blue});"><p class="box-number">Box #${
+      DOMSelectors.container[0].childElementCount + 1
+    }</p><p class="rgb-text">RGB: ${rgb.red}, ${rgb.green}, ${
+      rgb.blue
+    }</p><button class="rgb-button">Delete Box</button></div>`
+  );
 }
 
 function isInteger(value) {
-  return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
+  return (
+    !isNaN(value) &&
+    parseInt(Number(value)) == value &&
+    !isNaN(parseInt(value, 10))
+  );
 }
 
 function validRGB(rgb) {
@@ -16,22 +27,17 @@ function validRGB(rgb) {
   try {
     rgb = blankRGB(rgb);
     intRGB = [parseInt(rgb.red), parseInt(rgb.green), parseInt(rgb.blue)];
-    console.log(`parsed RGB values: ${intRGB}`)
+    console.log(`parsed RGB values: ${intRGB}`);
     intRGB.forEach((color) => {
       if (color > 255 || color < 0 || !isInteger(color)) {
         throw "Invalid RGB value";
       }
-    })
-    return { red: intRGB[0], green: intRGB[1], blue: intRGB[2] }
+    });
+    return { red: intRGB[0], green: intRGB[1], blue: intRGB[2] };
   } catch {
     console.log("Invalid RGB value" + { red: "", green: "", blue: "" });
     DOMSelectors.error.textContent = "Invalid RGB value";
   }
-}
-function createBox() {
-  const rgbBox = document.createElement("div");
-  rgbBox.classList.add("rgb-box");
-  return rgbBox;
 }
 
 function blankRGB(rgb) {
@@ -51,33 +57,25 @@ function blankRGB(rgb) {
   };
 }
 
-function delButton(rgbButton, box) {
-  rgbButton.addEventListener("click", function () {
-    box.remove();
-    const boxNumbers = document.getElementsByClassName("box-number");
-    for (let i = 0; i < boxNumbers.length; i++) {
-      boxNumbers[i].textContent = `Box #${i + 1}`;
-    }
+function delButton(buttons) {
+  console.log(buttons)
+  buttons.forEach((button) => {
+    button.addEventListener("click", function () {
+      button.parentElement.remove();
+      const boxNumbers = document.getElementsByClassName("box-number");
+      for (let i = 0; i < boxNumbers.length; i++) {
+        boxNumbers[i].textContent = `Box #${i + 1}`;
+      }
+    });
   });
 }
 
-function boxContents(rgb) {
-  const box = createBox();
-  const rgbText = document.createElement("p");
-  const rgbButton = document.createElement("button");
-  const boxNumber = document.createElement("p");
-  rgbText.classList.add("rgb-text");
-  rgbText.textContent = `RGB: ${rgb.red}, ${rgb.green}, ${rgb.blue}`;
-  rgbButton.classList.add("rgb-button");
-  rgbButton.textContent = "Delete Box";
-  delButton(rgbButton, box);
-  boxNumber.classList.add("box-number");
-  boxNumber.textContent = `Box #${DOMSelectors.container[0].childElementCount + 1
-    }`;
-  box.appendChild(boxNumber);
-  box.appendChild(rgbText);
-  box.appendChild(rgbButton);
-  return box;
+function getColor(dom) {
+  return {
+    red: dom.red.value,
+    green: dom.green.value,
+    blue: dom.blue.value,
+  };
 }
 
 const DOMSelectors = {
@@ -87,17 +85,15 @@ const DOMSelectors = {
   blue: document.getElementById("blue"),
   container: document.getElementsByClassName("container"),
   error: document.getElementById("error"),
+  buttons: document.getElementsByClassName("rgb-button"),
 };
 
 DOMSelectors.inputform.addEventListener("submit", function (e) {
   e.preventDefault();
-  DOMSelectors.error.textContent = '';
-  const color = {
-    red: DOMSelectors.red.value,
-    green: DOMSelectors.green.value,
-    blue: DOMSelectors.blue.value,
-  };
+  DOMSelectors.error.textContent = "";
+  const color = getColor(DOMSelectors);
   console.log(`RGB entered: ${color.red}, ${color.green}, ${color.blue}`);
   console.log(DOMSelectors.container);
   insertRGBBox(color);
+  delButton(DOMSelectors.buttons)
 });
