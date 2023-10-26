@@ -57,7 +57,8 @@ function blankRGB(rgb) {
   };
 }
 
-function delButton(buttons) {
+function delButton(input) {
+  const buttons = Array.from(input);
   console.log(buttons)
   buttons.forEach((button) => {
     button.addEventListener("click", function () {
@@ -95,5 +96,5 @@ DOMSelectors.inputform.addEventListener("submit", function (e) {
   console.log(`RGB entered: ${color.red}, ${color.green}, ${color.blue}`);
   console.log(DOMSelectors.container);
   insertRGBBox(color);
-  delButton(DOMSelectors.buttons)
+  delButton(DOMSelectors.buttons);
 });
