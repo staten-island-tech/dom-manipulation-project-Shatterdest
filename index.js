@@ -1,7 +1,6 @@
 function insertRGBBox(rawRGB) {
   const rgb = validRGB(rawRGB);
   console.log(rgb);
-  DOMSelectors.inputform.reset();
   DOMSelectors.container[0].insertAdjacentHTML(
     "beforeend",
     `<div class="rgb-box" style="background-color: rgb(${rgb.red}, ${
@@ -96,5 +95,6 @@ DOMSelectors.inputform.addEventListener("submit", function (e) {
   console.log(`RGB entered: ${color.red}, ${color.green}, ${color.blue}`);
   console.log(DOMSelectors.container);
   insertRGBBox(color);
+  DOMSelectors.inputform.reset();
   delButton(DOMSelectors.buttons);
 });
